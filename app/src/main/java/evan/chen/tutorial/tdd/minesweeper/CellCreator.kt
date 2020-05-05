@@ -44,10 +44,12 @@ class CellCreator : ICellCreator {
 }
 
 class Cell {
+    var x: Int = 0
+    var y: Int = 0
     var isMine: Boolean = false
     var status: Status? = null
 
     enum class Status {
-        CLOSE
+        CLOSE, OPEN
     }
 }
