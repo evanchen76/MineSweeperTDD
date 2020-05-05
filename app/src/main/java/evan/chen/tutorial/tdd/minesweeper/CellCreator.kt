@@ -2,11 +2,15 @@ package evan.chen.tutorial.tdd.minesweeper
 
 import java.util.*
 
-class CellCreator {
+interface ICellCreator {
+    fun createCell(): MutableList<Cell>
+}
+
+class CellCreator : ICellCreator {
 
     var level: Int = 0
 
-    fun createCell(): MutableList<Cell> {
+    override fun createCell(): MutableList<Cell> {
         val returnCells = mutableListOf<Cell>()
         val mineIndexes = createRandomIndexes(level)
         (0 until level).forEach { x ->

@@ -8,8 +8,10 @@ class MineSweeperTest {
     @Test
     fun startGame() {
         val level = 9
+        val cellCreator = CellCreator()
+        cellCreator.level = level
         val mineSweeper = MineSweeper()
-        mineSweeper.startGame(level)
+        mineSweeper.startGame(cellCreator)
         val cells:List<Cell> = mineSweeper.cells
         Assert.assertEquals(81, cells.count())
     }

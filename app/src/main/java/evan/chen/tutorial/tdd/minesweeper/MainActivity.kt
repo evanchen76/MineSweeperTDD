@@ -16,7 +16,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val level = 9
-        mineSweeper.startGame(level)
+        val cellCreator = CellCreator()
+        cellCreator.level = level
+        mineSweeper.startGame(cellCreator)
         mainAdapter = MainAdapter(mineSweeper.cells, this)
         recyclerView.adapter = mainAdapter
         recyclerView.layoutManager = StaggeredGridLayoutManager(level, StaggeredGridLayoutManager.VERTICAL)

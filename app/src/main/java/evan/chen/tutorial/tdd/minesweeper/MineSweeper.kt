@@ -2,9 +2,7 @@ package evan.chen.tutorial.tdd.minesweeper
 
 class MineSweeper {
     var cells: List<Cell> = listOf()
-    fun startGame(level: Int) {
-        val cellCreator = CellCreator()
-        cellCreator.level = level
+    fun startGame(cellCreator: CellCreator) {
         cells = cellCreator.createCell()
     }
 }
