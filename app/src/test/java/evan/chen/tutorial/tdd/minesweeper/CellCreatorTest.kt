@@ -19,12 +19,15 @@ class CellCreatorTest {
     @Test
     fun testCreateCellShouldBeClose() {
         //所有的狀態應為關閉的
-        val cellCreator = CellCreator()
-        cellCreator.level = 9
-        val expected = 81
-        val createCell = cellCreator.createCell()
+        val createCell = createLevelCell(9)
         val cellCount = createCell.filter { it.status == Cell.Status.CLOSE }.count()
-        Assert.assertEquals(expected, cellCount)
+        Assert.assertEquals(81, cellCount)
+    }
+
+    private fun createLevelCell(level: Int): MutableList<Cell> {
+        val cellCreator = CellCreator()
+        cellCreator.level = level
+        return cellCreator.createCell()
 
     }
 }
