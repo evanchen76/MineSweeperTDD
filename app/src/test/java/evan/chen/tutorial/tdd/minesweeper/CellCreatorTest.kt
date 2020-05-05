@@ -24,6 +24,14 @@ class CellCreatorTest {
         Assert.assertEquals(81, cellCount)
     }
 
+    @Test
+    fun testCreateGameShouldHave15PercentMine() {
+        //測試地雷應有15%
+        val createCell = createLevelCell(9)
+        val mineCount = createCell.filter { it.isMine }.count()
+        Assert.assertEquals(13, mineCount)
+    }
+
     private fun createLevelCell(level: Int): MutableList<Cell> {
         val cellCreator = CellCreator()
         cellCreator.level = level
