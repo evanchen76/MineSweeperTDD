@@ -10,6 +10,7 @@ class CellCreator {
             (0 until level).forEach { y ->
                 val number = x * level + y
                 val cell = Cell()
+                cell.status = Cell.Status.CLOSE
                 returnCells.add(cell)
             }
         }
@@ -18,5 +19,8 @@ class CellCreator {
 }
 
 class Cell {
-
+    var status:Status? = null
+    enum class Status {
+        CLOSE
+    }
 }
