@@ -38,8 +38,27 @@ class MineSweeperTest {
         val x = 0
         val y = 0
         mineSweeper.tap(x, y)
-        val cell = mineSweeper.cells.find { it.x == x && it.y == y }
-        Assert.assertEquals(Cell.Status.OPEN, cell?.status)
+
+        val verify = mutableListOf<String>()
+        verify.add(" ") //這裡的空格代表已被打開
+        verifyDisplay(verify)
+    }
+
+    private fun verifyDisplay(verify: List<String>) {
+        verify.forEachIndexed { yIndex, yList ->
+            val lines = yList.split("|")
+            lines.forEachIndexed { xIndex, value ->
+                val findCell = mineSweeper.findCell(xIndex, yIndex)!!
+                when (value) {
+                    " " -> Assert.assertEquals("$xIndex, $yIndex",
+                        Cell.Status.OPEN, findCell.status
+                    )
+                    "-" -> Assert.assertEquals("$xIndex, $yIndex",
+                        Cell.Status.CLOSE, findCell.status
+                    )
+                }
+            }
+        }
     }
 
     private fun createCell(initSweeper: MutableList<String>): MutableList<Cell> {

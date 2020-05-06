@@ -10,4 +10,6 @@ class MineSweeper {
         val cell = cells.find { it.x == x && it.y == y }!!
         cell.status = Cell.Status.OPEN
     }
+
+    fun findCell(x: Int, y: Int) = cells.find { it.x == x && it.y == y }
 }
