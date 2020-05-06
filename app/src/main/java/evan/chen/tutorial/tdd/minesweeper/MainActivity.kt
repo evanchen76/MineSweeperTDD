@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ICellTapListener {
 
     private val mineSweeper = MineSweeper()
     private lateinit var mainAdapter: MainAdapter
@@ -19,7 +19,10 @@ class MainActivity : AppCompatActivity() {
         val cellCreator = CellCreator()
         cellCreator.level = level
         mineSweeper.startGame(cellCreator)
+
         mainAdapter = MainAdapter(mineSweeper.cells, this)
+        mainAdapter.setCellListener(this)
+
         recyclerView.adapter = mainAdapter
         recyclerView.layoutManager = StaggeredGridLayoutManager(level, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.addItemDecoration(
@@ -28,5 +31,10 @@ class MainActivity : AppCompatActivity() {
         recyclerView.addItemDecoration(
             DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
         )
+    }
+
+    override fun onCellClick(cell: Cell) {
+        mineSweeper.tap(cell.x, cell.y)
+        mainAdapter.notifyDataSetChanged()
     }
 }
