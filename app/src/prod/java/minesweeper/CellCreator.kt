@@ -2,10 +2,6 @@ package evan.chen.tutorial.tdd.minesweeper
 
 import java.util.*
 
-interface ICellCreator {
-    fun createCell(): MutableList<Cell>
-}
-
 class CellCreator : ICellCreator {
 
     var level: Int = 0
@@ -43,14 +39,3 @@ class CellCreator : ICellCreator {
     }
 }
 
-class Cell {
-    var nextMines: Int = 0
-    var x: Int = 0
-    var y: Int = 0
-    var isMine: Boolean = false
-    var status: Status? = null
-
-    enum class Status {
-        CLOSE, OPEN
-    }
-}

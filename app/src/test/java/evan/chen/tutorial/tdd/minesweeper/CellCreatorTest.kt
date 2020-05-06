@@ -8,7 +8,8 @@ class CellCreatorTest {
     @Test
     fun testCreateCell() {
         //傳入難度等級9，產生9*9=81的方格
-        val cellCreator = CellCreator()
+        val cellCreator =
+            CellCreator()
         cellCreator.level = 9
 
         val createCell = cellCreator.createCell()
@@ -33,7 +34,8 @@ class CellCreatorTest {
     }
 
     private fun createLevelCell(level: Int): MutableList<Cell> {
-        val cellCreator = CellCreator()
+        val cellCreator =
+            CellCreator()
         cellCreator.level = level
         return cellCreator.createCell()
 
