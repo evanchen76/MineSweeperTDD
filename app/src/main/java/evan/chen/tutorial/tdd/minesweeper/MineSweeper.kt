@@ -23,7 +23,13 @@ class MineSweeper {
                     val newY = cell.y + j
                     val nextCell = findCell(newX, newY)
                     if (nextCell?.isMine == false && nextCell.status == Cell.Status.CLOSE) {
-                        nextCell.status = Cell.Status.OPEN
+                        if (nextCell.nextMines == 0) {
+                            //旁邊=0，則自動點擊
+                            tap(newX, newY)
+                        } else {
+                            //旁邊!=0，顯示
+                            nextCell.status = Cell.Status.OPEN
+                        }
                     }
                 }
             }

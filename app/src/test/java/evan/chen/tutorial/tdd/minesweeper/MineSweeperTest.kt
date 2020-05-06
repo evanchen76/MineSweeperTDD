@@ -96,6 +96,32 @@ class MineSweeperTest {
         verifyDisplay(verify)
     }
 
+    @Test
+    fun tapIfNextIs0ThenOpen() {
+        //旁邊如果數字是0，就再點擊打開
+        val init = mutableListOf<String>()
+        init.add("*|-|-|-|-")
+        init.add("-|-|-|-|-")
+        init.add("-|*|-|-|-")
+        init.add("-|-|-|-|-")
+        init.add("-|-|*|-|-")
+
+        val cells = createCell(init)
+        val creator = FakeCellCreator().apply { this.cells = cells }
+
+        mineSweeper.startGame(creator)
+        mineSweeper.tap(3, 2)
+
+        val verify = mutableListOf<String>()
+        verify.add("*|1| | | ")
+        verify.add("-|2|1| | ")
+        verify.add("-|*|1| | ")
+        verify.add("-|-|2|1| ")
+        verify.add("-|-|*|1| ")
+
+        verifyDisplay(verify)
+    }
+
     private fun verifyDisplay(verify: List<String>) {
         verify.forEachIndexed { yIndex, yList ->
             val lines = yList.split("|")
