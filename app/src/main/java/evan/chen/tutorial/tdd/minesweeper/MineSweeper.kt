@@ -13,6 +13,21 @@ class MineSweeper {
     fun tap(x: Int, y: Int) {
         val cell = cells.find { it.x == x && it.y == y }!!
         cell.status = Cell.Status.OPEN
+
+        //如該Cell的附近是地雷數是0，則顯示週圍8格的地雷數。
+        if (cell.nextMines == 0) {
+            //找附近
+            for (i in -1..1) {
+                for (j in -1..1) {
+                    val newX = cell.x + i
+                    val newY = cell.y + j
+                    val nextCell = findCell(newX, newY)
+                    if (nextCell?.isMine == false && nextCell.status == Cell.Status.CLOSE) {
+                        nextCell.status = Cell.Status.OPEN
+                    }
+                }
+            }
+        }
     }
 
     fun findCell(x: Int, y: Int) = cells.find { it.x == x && it.y == y }

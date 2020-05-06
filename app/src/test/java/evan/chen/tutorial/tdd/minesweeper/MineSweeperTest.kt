@@ -70,6 +70,32 @@ class MineSweeperTest {
         verifyDisplay(verify)
     }
 
+    @Test
+    fun tapCellShouldDisplayNextMines() {
+        //點擊的Cell如果旁邊都沒有地雷，顯示旁邊的地雷數。
+        val init = mutableListOf<String>()
+        init.add("*|-|-|-|-")
+        init.add("-|-|-|-|-")
+        init.add("-|*|-|-|-")
+        init.add("-|-|-|-|-")
+        init.add("-|-|*|-|-")
+
+        val cells = createCell(init)
+        val creator = FakeCellCreator().apply { this.cells = cells }
+
+        mineSweeper.startGame(creator)
+        mineSweeper.tap(0, 4)
+
+        val verify = mutableListOf<String>()
+        verify.add("*|-|-|-|-")
+        verify.add("-|-|-|-|-")
+        verify.add("-|*|-|-|-")
+        verify.add("1|2|-|-|-")
+        verify.add(" |1|*|-|-")
+
+        verifyDisplay(verify)
+    }
+
     private fun verifyDisplay(verify: List<String>) {
         verify.forEachIndexed { yIndex, yList ->
             val lines = yList.split("|")
