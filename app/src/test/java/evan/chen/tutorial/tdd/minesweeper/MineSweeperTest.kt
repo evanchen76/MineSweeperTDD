@@ -123,6 +123,34 @@ class MineSweeperTest {
         verifyDisplay(verify)
     }
 
+    @Test
+
+    fun tapTestWithFlag() {
+        //插旗測試，設定初始方格。
+        val init = mutableListOf<String>()
+        init.add("*|-|-|-|-")
+        init.add("-|-|-|-|-")
+        init.add("-|*|-|-|-")
+        init.add("-|-|-|-|-")
+        init.add("-|-|*|-|-")
+
+        val cells = createCell(init)
+        val creator = FakeCellCreator().apply { this.cells = cells }
+
+        mineSweeper.startGame(creator)
+        mineSweeper.tapFlag(2, 0)
+
+        //驗證方格的(2,0)是否為插旗
+        val verify = mutableListOf<String>()
+        verify.add("*|-|f|-|-")
+        verify.add("-|-|-|-|-")
+        verify.add("-|*|-|-|-")
+        verify.add("-|-|-|-|-")
+        verify.add("-|-|*|-|-")
+        verifyDisplay(verify)
+
+    }
+
     private fun verifyDisplay(verify: List<String>) {
         verify.forEachIndexed { yIndex, yList ->
             val lines = yList.split("|")
@@ -136,6 +164,14 @@ class MineSweeperTest {
                     "-" -> Assert.assertEquals("$xIndex, $yIndex",
                         Cell.Status.CLOSE, findCell.status
                     )
+                    "f" -> {
+                        Assert.assertEquals("$xIndex, $yIndex",
+                            Cell.Status.CLOSE, findCell.status
+                        )
+                        Assert.assertEquals("$xIndex, $yIndex",
+                            true, findCell.isFlag
+                        )
+                    }
                     else -> {
                         //顯示Cell的數字且狀態為打開。nextMines表示該Cell附近的地雷數。
                         Assert.assertEquals("$xIndex, $yIndex",

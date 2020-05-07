@@ -59,4 +59,9 @@ class MineSweeper {
 
         cell.nextMines = nextMines
     }
+
+    fun tapFlag(x: Int, y: Int) {
+        val findCell = findCell(x, y)!!
+        findCell.isFlag = true
+    }
 }
