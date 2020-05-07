@@ -16,6 +16,11 @@ class MineSweeper {
         val cell = cells.find { it.x == x && it.y == y }!!
         cell.status = Cell.Status.OPEN
 
+        //點到地雷，輸了
+        if (cell.isMine) {
+            listener?.lostGame()
+        }
+
         //判斷是否除了有地雷方格都被打開了。
         if (cells.find { it.status != Cell.Status.OPEN && !it.isMine } == null) {
             listener?.winGame()

@@ -173,6 +173,26 @@ class MineSweeperTest {
         verify{sweeperListener.winGame()}
     }
 
+    @Test
+    fun checkLost() {
+        val init = mutableListOf<String>()
+        init.add(" | | | | ")
+        init.add(" | | |*| ")
+        init.add(" |*| |*| ")
+        init.add(" | | | | ")
+        init.add("-|-|-|-|-")
+
+        val sweeperListener = mockk<IMineSweeperListener>(relaxed = true)
+        val cells = createCell(init)
+        val creator = FakeCellCreator().apply { this.cells = cells }
+
+        mineSweeper.startGame(creator)
+        mineSweeper.setMineSweeperListener(sweeperListener)
+        mineSweeper.tap(1, 2)
+
+        verify{(sweeperListener).lostGame()}
+    }
+
     private fun verifyDisplay(verify: List<String>) {
         verify.forEachIndexed { yIndex, yList ->
             val lines = yList.split("|")
