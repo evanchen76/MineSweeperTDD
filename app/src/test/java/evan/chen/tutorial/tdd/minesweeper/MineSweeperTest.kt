@@ -1,5 +1,7 @@
 package evan.chen.tutorial.tdd.minesweeper
 
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -149,6 +151,26 @@ class MineSweeperTest {
         verify.add("-|-|*|-|-")
         verifyDisplay(verify)
 
+    }
+
+    @Test
+    fun checkWin() {
+        val init = mutableListOf<String>()
+        init.add(" | | | | ")
+        init.add(" | | |*| ")
+        init.add(" |*| |*| ")
+        init.add(" | | | | ")
+        init.add("-|-|-|-|-")
+
+        val sweeperListener = mockk<IMineSweeperListener>(relaxed = true)
+        val cells = createCell(init)
+        val creator = FakeCellCreator().apply { this.cells = cells }
+
+        mineSweeper.startGame(creator)
+        mineSweeper.setMineSweeperListener(sweeperListener)
+        mineSweeper.tap(2, 4)
+
+        verify{sweeperListener.winGame()}
     }
 
     private fun verifyDisplay(verify: List<String>) {

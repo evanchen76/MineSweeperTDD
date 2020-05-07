@@ -2,6 +2,8 @@ package evan.chen.tutorial.tdd.minesweeper
 
 class MineSweeper {
     var cells: List<Cell> = listOf()
+    var listener: IMineSweeperListener? = null
+
     fun startGame(cellCreator: ICellCreator) {
         cells = cellCreator.createCell()
         cells.forEach { cell ->
@@ -13,6 +15,11 @@ class MineSweeper {
     fun tap(x: Int, y: Int) {
         val cell = cells.find { it.x == x && it.y == y }!!
         cell.status = Cell.Status.OPEN
+
+        //判斷是否除了有地雷方格都被打開了。
+        if (cells.find { it.status != Cell.Status.OPEN && !it.isMine } == null) {
+            listener?.winGame()
+        }
 
         //如該Cell的附近是地雷數是0，則顯示週圍8格的地雷數。
         if (cell.nextMines == 0) {
@@ -63,5 +70,9 @@ class MineSweeper {
     fun tapFlag(x: Int, y: Int) {
         val findCell = findCell(x, y)!!
         findCell.isFlag = true
+    }
+
+    fun setMineSweeperListener(sweeperListener: IMineSweeperListener?) {
+        listener = sweeperListener
     }
 }
