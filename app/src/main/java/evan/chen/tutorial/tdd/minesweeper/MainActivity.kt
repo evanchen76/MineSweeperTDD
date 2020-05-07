@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), ICellTapListener, IMineSweeperListener
     }
 
     override fun lostGame() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        gameStatus.text = "你輸了"
     }
 
     override fun onCellClick(cell: Cell) {

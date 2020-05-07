@@ -62,6 +62,12 @@ class MainActivityTest {
         onView(withId(R.id.gameStatus)).check(matches(withText("你贏了")))
     }
 
+    @Test
+    fun lostGameTest() {
+        clickCellAt(3, 5)
+        onView(withId(R.id.gameStatus)).check(matches(withText("你輸了")))
+    }
+
     private fun longClickCellAt(x: Int, y: Int) {
         val position = y * 9 + x
         val frameLayout = onView(
