@@ -5,12 +5,13 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.longClick
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.hasChildCount
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
+import evan.chen.tutorial.tdd.minesweeper.MainActivityTest.EspressoTestsMatchers.withDrawable
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
@@ -28,12 +29,12 @@ class MainActivityTest {
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
-    fun loadCellTest(){
+    fun loadCellTest() {
         onView(withId(R.id.recyclerView)).check(matches(hasChildCount(81)))
     }
 
     @Test
-    fun clickShowNextNextMines(){
+    fun clickShowNextNextMines() {
         clickCellAt(4, 8)
         checkNumber(3, 8, 1)
         checkNumber(3, 7, 1)
@@ -42,6 +43,50 @@ class MainActivityTest {
         checkNumber(5, 6, 1)
         checkNumber(5, 7, 1)
         checkNumber(5, 8, 1)
+    }
+
+    @Test
+    fun longClickFlag() {
+        longClickCellAt(3, 5)
+        checkIsFlag(3, 5)
+    }
+
+    private fun longClickCellAt(x: Int, y: Int) {
+        val position = y * 9 + x
+        val frameLayout = onView(
+            Matchers.allOf(
+                childAtPosition(
+                    Matchers.allOf(
+                        withId(R.id.recyclerView),
+                        childAtPosition(
+                            IsInstanceOf.instanceOf(LinearLayout::class.java),
+                            1
+                        )
+                    ),
+                    position
+                ),
+                isDisplayed()
+            )
+        )
+        frameLayout.perform().perform(longClick())
+    }
+
+    private fun checkIsFlag(x: Int, y: Int) {
+        val position = y * 9 + x
+        val imageView = onView(
+            Matchers.allOf(
+                withId(R.id.imageView),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.recyclerView),
+                        position
+                    ),
+                    0
+                ),
+                isDisplayed()
+            )
+        )
+        imageView.check(matches(withDrawable(R.mipmap.flag)))
     }
 
     private fun clickCellAt(x: Int, y: Int) {
@@ -64,7 +109,7 @@ class MainActivityTest {
         frameLayout.perform().perform(ViewActions.click())
     }
 
-    private fun checkNumber(x: Int, y:Int, number:Int){
+    private fun checkNumber(x: Int, y: Int, number: Int) {
         val position = y * 9 + x
         val textView = onView(
             Matchers.allOf(
@@ -99,4 +144,11 @@ class MainActivityTest {
             }
         }
     }
+
+    object EspressoTestsMatchers {
+        fun withDrawable(resourceId: Int): Matcher<View> {
+            return DrawableMatcher(resourceId)
+        }
+    }
 }
+

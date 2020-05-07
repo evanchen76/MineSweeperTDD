@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 interface ICellTapListener {
     fun onCellClick(cell: Cell)
+    fun onCellLongClick(cell: Cell)
 }
 
 class MainAdapter(
@@ -33,6 +34,12 @@ class MainAdapter(
 
             if (cell.status == Cell.Status.CLOSE) {
                 viewHolder.itemView.setBackgroundColor(Color.LTGRAY)
+
+                if (cell.isFlag) {
+                    viewHolder.textView.visibility = View.GONE
+                    viewHolder.imageView.visibility = View.VISIBLE
+                    viewHolder.imageView.setImageResource(R.mipmap.flag)
+                }
             }
 
             if (cell.status == Cell.Status.OPEN) {
@@ -50,6 +57,11 @@ class MainAdapter(
 
             viewHolder.itemView.setOnClickListener {
                 listener?.onCellClick(cell)
+            }
+
+            viewHolder.itemView.setOnLongClickListener {
+                listener?.onCellLongClick(cell)
+                true
             }
         }
     }

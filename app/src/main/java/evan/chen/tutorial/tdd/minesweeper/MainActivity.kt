@@ -37,4 +37,9 @@ class MainActivity : AppCompatActivity(), ICellTapListener {
         mineSweeper.tap(cell.x, cell.y)
         mainAdapter.notifyDataSetChanged()
     }
+
+    override fun onCellLongClick(cell: Cell) {
+        mineSweeper.tapFlag(cell.x, cell.y)
+        mainAdapter.notifyDataSetChanged()
+    }
 }
