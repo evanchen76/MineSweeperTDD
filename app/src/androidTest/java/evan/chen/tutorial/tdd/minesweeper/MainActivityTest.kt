@@ -51,6 +51,17 @@ class MainActivityTest {
         checkIsFlag(3, 5)
     }
 
+    @Test
+    fun winGameTest() {
+        clickCellAt(0, 1)
+        clickCellAt(0, 3)
+        clickCellAt(3, 7)
+        clickCellAt(4, 7)
+        clickCellAt(6, 8)
+
+        onView(withId(R.id.gameStatus)).check(matches(withText("你贏了")))
+    }
+
     private fun longClickCellAt(x: Int, y: Int) {
         val position = y * 9 + x
         val frameLayout = onView(
