@@ -13,6 +13,8 @@ class CellCreator : ICellCreator {
             (0 until level).forEach { y ->
                 val number = x * level + y
                 val cell = Cell()
+                cell.x = x
+                cell.y = y
                 cell.status = Cell.Status.CLOSE
                 cell.isMine = false
                 if (mineIndexes.filter { it == number }.count() != 0) {
